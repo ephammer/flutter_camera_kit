@@ -6,11 +6,11 @@ homepage: https://github.com/MythiCode/flutter_camera_kit
 repository: https://github.com/MythiCode/flutter_camera_kit
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
   flutter: ">=1.10.0"
 
 dependencies:
-  visibility_detector: ^0.1.5
+  visibility_detector: ^0.2.0
   flutter:
     sdk: flutter
 
