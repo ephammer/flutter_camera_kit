@@ -433,7 +433,7 @@ public class CameraViewX implements CameraViewInterface {
                                 if (barcodes.size() > 0) {
                                     for (Barcode barcode : barcodes
                                     ) {
-                                        flutterMethodListener.onBarcodeRead(barcode.getRawValue());
+                                        flutterMethodListener.onBarcodeRead(barcode);
                                     }
                                 }
                             }

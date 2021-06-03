@@ -1,10 +1,11 @@
 package com.MythiCode.camerakit;
 
+import com.google.mlkit.vision.barcode.Barcode;
 import io.flutter.plugin.common.MethodChannel;
 
 public interface FlutterMethodListener {
 
-    void onBarcodeRead(String barcode);
+    void onBarcodeRead(Barcode barcode);
 
     void onTakePicture(MethodChannel.Result result, String filePath);
 

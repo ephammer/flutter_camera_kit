@@ -41,7 +41,7 @@ public class BarcodeDetector {
                                     if (barcodes.size() > 0) {
                                         for (com.google.mlkit.vision.barcode.Barcode barcode : barcodes
                                         ) {
-                                            flutterMethodListener.onBarcodeRead(barcode.getRawValue());
+                                            flutterMethodListener.onBarcodeRead(barcode);
 
                                         }
                                     }

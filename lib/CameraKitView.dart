@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import 'CameraKitController.dart';
+import 'src/types/barcode.dart';
+import 'src/types/barcode_format.dart';
 
 enum CameraFlashMode { on, off, auto }
 enum ScaleTypeMode { fit, fill }
@@ -190,8 +192,24 @@ class NativeCameraKitController {
 
   Future<dynamic> nativeMethodCallHandler(MethodCall methodCall) async {
     if (methodCall.method == "onBarcodeRead") {
-      if (widget.onBarcodeRead != null)
-        widget.onBarcodeRead!(methodCall.arguments);
+      if (widget.onBarcodeRead != null) {
+        // widget.onBarcodeRead!(methodCall.arguments);
+
+        if (methodCall.arguments != null) {
+          final args = methodCall.arguments as Map;
+          final code = args['code'] as String;
+          final rawType = args['type'] as String;
+          // Raw bytes are only supported by Android.
+          final rawBytes = args['rawBytes'] as List<int>?;
+          final format = BarcodeTypesExtension.fromString(rawType);
+          if (format != BarcodeFormat.unknown) {
+            final barcode = Barcode(code, format, rawBytes);
+            widget.onBarcodeRead!(barcode);
+          } else {
+            throw Exception('Unexpected barcode type $rawType');
+          }
+        }
+      }
     }
 
     return null;

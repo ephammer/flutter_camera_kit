@@ -9,12 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 
+import com.google.mlkit.vision.barcode.Barcode;
 import io.flutter.embedding.engine.dart.DartExecutor;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.platform.PlatformView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class CameraKitFlutterView implements PlatformView, MethodChannel.MethodCallHandler, FlutterMethodListener {
@@ -115,8 +119,12 @@ public class CameraKitFlutterView implements PlatformView, MethodChannel.MethodC
     }
 
     @Override
-    public void onBarcodeRead(String barcode) {
-        channel.invokeMethod("onBarcodeRead", barcode);
+    public void onBarcodeRead(Barcode barcode) {
+        Map result = new HashMap();
+        result.put("code",barcode.getRawValue());
+        result.put("type",barcode.getFormat());
+        result.put("rawBytes",barcode.getRawBytes());
+        channel.invokeMethod("onBarcodeRead", result);
     }
 
     @Override

@@ -386,7 +386,38 @@ class CameraKitFlutterView : NSObject, FlutterPlatformView, AVCaptureVideoDataOu
              }
             
             for barcode in barcodes {
-                barcodeRead(barcode: barcode.rawValue!)
+                 var typeString: String;
+                switch(barcode.format) {
+                    case .aztec:
+                        typeString = "AZTEC"
+                    case .code39:
+                        typeString = "CODE_39"
+                    case .code93:
+                        typeString = "CODE_93"
+                    case .code128:
+                        typeString = "CODE_128"
+                    case .dataMatrix:
+                        typeString = "DATA_MATRIX"
+                    case .EAN8:
+                        typeString = "EAN_8"
+                    case .EAN13:
+                        typeString = "EAN_13"
+                    case .ITF:
+                        typeString = "ITF"
+                    case .PDF417:
+                        typeString = "PDF_417"
+                    case .qrCode:
+                        typeString = "QR_CODE"
+                    case .UPCE:
+                        typeString = "UPC_E"
+                    default:
+                        return
+                }
+                guard let stringValue = barcode.rawValue else { continue }
+                let result = ["code": stringValue, "type": typeString]
+                
+                channel.invokeMethod("onBarcodeRead", arguments: result)
+
             }
         }
         
